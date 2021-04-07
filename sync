@@ -1,8 +1,8 @@
 #!/bin/bash
 
 ROMDIR=/tmp/rom
-MANIFEST=https://github.com/PotatoProject/manifest.git
-BRANCH=dumaloo-release
+MANIFEST=https://github.com/DotOS/manifest
+BRANCH=dot11
 
 
 mkdir -p "$ROMDIR"
@@ -18,12 +18,12 @@ git clone https://github.com/nrudesu/local_manifests --depth 1 -b certus-r .repo
 # Sync source with -q
 repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
 
-# bringup potato
+# bringup droid on time os
 cd $ROMDIR/device/xiaomi/certus
-mv komodo_certus.mk potato_certus.mk
-mv komodo.dependencies potato.dependencies
-sed -i "s/komodo/potato/" AndroidProducts.mk potato_certus.mk
-#sed -i "s/komodo/potato/" potato_certus.mk
+mv komodo_certus.mk dot_certus.mk
+mv komodo.dependencies dot.dependencies
+sed -i "s/komodo/dot/" AndroidProducts.mk dot_certus.mk
+#sed -i "s/komodo/dot/" dot_certus.mk
 
 # Disable serial console notification
 cd $ROMDIR/device/xiaomi/certus/rootdir/etc
@@ -32,9 +32,8 @@ wget -c https://del.dog/raw/certus-rootdir-init-svc
 mv certus-rootdir-init-svc init.target.rc
 
 # Replace LatinIME to modified LatinIME for better interface :p
-#later :p
-#rm -rf packages/inputmethods/LatinIME
-#git clone https://github.com/AOSiP/platform_packages_inputmethods_LatinIME -b eleven packages/inputmethods/LatinIME
+rm -rf "$ROMDIR"/packages/inputmethods/LatinIME
+git clone https://github.com/AOSiP/platform_packages_inputmethods_LatinIME -b eleven "$ROMDIR"/packages/inputmethods/LatinIME
 
 # Codec Patch
 cd "$ROMDIR"/frameworks/av
