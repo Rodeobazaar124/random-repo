@@ -3,7 +3,7 @@
 cd /tmp/rom
 
 . build/envsetup.sh
-lunch fluid_certus-userdebug
+lunch potato_certus-userdebug
 export SELINUX_IGNORE_NEVERALLOWS=true
 export CCACHE_DIR=/tmp/ccache
 export CCACHE_EXEC=$(which ccache)
@@ -13,7 +13,7 @@ ccache -o compression=true
 ccache -z
 
 up(){
-	curl --upload-file $1 https://transfer.sh/
+	curl --upload-file $1 https://transfer.sh/$(basename $1)
 }
 
 make_metalava(){
@@ -23,7 +23,7 @@ make_metalava(){
 }
 
 make_rom(){
-	make bacon -j8
+	brunch certus
 	zip=$(up out/target/product/certus/*zip)
 	echo " "
 	echo "$zip"
