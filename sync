@@ -1,10 +1,13 @@
 #!/bin/bash
 
+# Variable
 ROMDIR=/tmp/rom
 MANIFEST=https://github.com/PotatoProject/manifest.git
 BRANCH=dumaloo-release
+ROM=potato
+ORIGINROM=komodo
 
-
+# make rom directory
 mkdir -p "$ROMDIR"
 cd "$ROMDIR"
 
@@ -13,6 +16,7 @@ repo init --no-repo-verify --depth=1 -u "$MANIFEST" -b "$BRANCH" -g default,-dev
 git config --global user.name Rodeobazaar124
 git config --global user.email azfasa15@gmail.com
 
+# cloning local_manifests into .repo/local_manifests
 git clone https://github.com/nrudesu/local_manifests --depth 1 -b certus-r .repo/local_manifests
 
 # Sync source with -q
@@ -20,10 +24,10 @@ repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync 
 
 # bringup potato
 cd $ROMDIR/device/xiaomi/certus
-mv nad_certus.mk potato_certus.mk
-mv nad.dependencies potato.dependencies
-sed -i "s/nad/potato/" AndroidProducts.mk potato_certus.mk
-sed -i "s/nusantara/potato/" potato_certus.mk
+mv $ORIGINROM_certus.mk $ROM_certus.mk
+mv $ORIGINROM.dependencies $ROM.dependencies
+sed -i "s/$ORIGINROM/$ROM/" AndroidProducts.mk $ROM_certus.mk
+sed -i "s/$ORIGINROM/$ROM/" $ROM_certus.mk
 
 # Disable serial console notification
 cd $ROMDIR/device/xiaomi/certus/rootdir/etc
