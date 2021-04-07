@@ -11,16 +11,16 @@ task:
       memory: 32G
     system_update_script:
       - ./system_update
-    neofetch_script:
-      - ./neofetch
-    specification_script:
-      - ./specification
-    download_ccache_script:
-      - ./download_ccache
+ #   neofetch_script:
+ #     - ./neofetch
+ #   specification_script:
+ #     - ./specification
+ #   download_ccache_script:
+ #     - ./download_ccache
     sync_script:
       - ./sync
     build_script:
       - ./build
- #   upload_ccache_script:
- #     - ./upload_ccache
+    upload_ccache_script:
+      - ./upload_ccache
       
