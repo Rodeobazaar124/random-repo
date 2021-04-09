@@ -23,7 +23,7 @@ make_metalava(){
 }
 
 make_rom(){
-	brunch certus
+	mka bacon -j8
 	zip=$(up out/target/product/certus/*zip)
 	echo " "
 	echo "$zip"
