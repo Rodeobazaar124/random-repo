@@ -23,7 +23,7 @@ cd $ROMDIR/device/xiaomi/certus
 mv komodo_certus.mk dot_certus.mk
 mv komodo.dependencies dot.dependencies
 sed -i "s/komodo/dot/" AndroidProducts.mk dot_certus.mk
-#sed -i "s/komodo/dot/" dot_certus.mk
+sed -i "s/_full_phone//" dot_certus.mk
 
 # Disable serial console notification
 cd $ROMDIR/device/xiaomi/certus/rootdir/etc
