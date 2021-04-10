@@ -22,8 +22,9 @@ make_metalava(){
 	make test-api-stubs-docs -j8
 }
 
+
 make_rom(){
-	mka bacon -j8
+	make bacon -j8
 	zip=$(up out/target/product/certus/*zip)
 	echo " "
 	echo "$zip"
