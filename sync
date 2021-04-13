@@ -50,3 +50,6 @@ git am 0296b55efeaae8cc835a6e2645531b29e10fb934.patch
 git add .
 git am --continue
 cd "$ROMDIR"
+
+# fix annoying error
+rm -rf "$ROMDIR"/vendor/qcom/opensource/usb/hal
