@@ -1,0 +1,22 @@
+env:
+    CIRRUS_CLONE_DEPTH: 1
+    CIRRUS_WORKING_DIR: "/tmp/ci"
+    rclone_config: "ENCRYPTED[370b76079626acbcc999e1b9fe9fd7f7172f9d2d8028c951823c06c7e14d57cede3ac482148095d26aa74df0b59f3fc6]"
+task:
+    name: potato-certus
+    timeout_in: 120m
+    container:
+      image:  ubuntu:rolling
+      cpu: 8
+      memory: 32G
+    system_update_script:
+      - bash system_update
+#    download_ccache_script:
+#     - bash download_ccache
+    sync_script:
+      - bash sync
+    build_script:
+      - bash build
+    upload_ccache_script:
+      - bash upload_ccache
+      

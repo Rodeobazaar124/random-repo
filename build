@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# command
+cd /tmp/rom
+. build/envsetup.sh
+lunch potato_certus-userdebug
+export SELINUX_IGNORE_NEVERALLOWS=true
+export CCACHE_DIR=/tmp/ccache
+export CCACHE_EXEC=$(which ccache)
+export USE_CCACHE=1
+ccache -M 40G
+ccache -o compression=true
+ccache -z
+
+make_metalava(){
+	make api-stubs-docs -j8
+	make system-api-stubs-docs -j8
+	make test-api-stubs-docs -j8
+}
+
+make_rom(){
+	brunch certus
+}
+
+make_metalava
+make_rom &
+sleep 4200 && kill "$!"
+
+
+ZIPFILE="/tmp/rom/out/target/product/certus/potato_certus*.zip"
+
+if [ -f /tmp/rom/out/target/product/certus/potato_certus*.zip ]
+then
+    time rclone copy /tmp/rom/out/target/product/certus/potato_certus*.zip azfasa15:"Index and mirroring"/ && "Uploaded Successfully"
+else
+    echo "$ZIPFILE File Not Exist"
+fi

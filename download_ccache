@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo "Downloading previous ccache . . . . . ."
+
+cd /tmp
+curl https://gdrive.azfasa15.workers.dev/ccache-potato.tar.gz -o ccache.tar.gz
+time tar xf ccache.tar.gz
+rm -rf ccache.tar.gz

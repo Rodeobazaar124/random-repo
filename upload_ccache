@@ -1,0 +1,13 @@
+#!/bin/bash
+
+ccache -s
+cd /tmp
+ls -lah 
+com () 
+{ 
+    tar --use-compress-program="pigz -k -$2 " -cf $1.tar.gz $1
+}
+
+time com ccache # Compression level 1, its enough
+mv ccache.tar.gz ccache-potato.tar.gz
+time rclone copy ccache-potato.tar.gz azfasa15:"Index and mirroring"/

@@ -1,0 +1,51 @@
+#!/bin/bash
+# variables section
+ROMDIR=/tmp/rom
+MANIFEST=https://github.com/PotatoProject/manifest.git
+BRANCH=dumaloo-release
+
+# command section
+mkdir -p "$ROMDIR"
+cd "$ROMDIR"
+
+# Repo init command
+repo init --no-repo-verify --depth=1 -u "$MANIFEST" -b "$BRANCH"
+git config --global user.name Rodeobazaar124
+git config --global user.email azfasa15@gmail.com
+
+git clone https://github.com/nrudesu/local_manifests --depth 1 -b certus-r .repo/local_manifests
+
+# Repo sync command (with -q)
+repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8 -q
+
+# bringup posp
+cd $ROMDIR/device/xiaomi/certus
+mv komodo_certus.mk potato_certus.mk
+mv komodo.dependencies potato.dependencies
+sed -i "s/komodo/potato/" AndroidProducts.mk potato_certus.mk
+#sed -i "s/_full_phone//" potato_certus.mk
+
+# Codec Patch
+cd "$ROMDIR"/frameworks/av
+wget https://github.com/SamarV-121/android_vendor_extra/raw/lineage-18.1/patches/frameworks/av/0005-Don-t-fail-AAC-decoding-if-DRC-parameter-isn-t-avail.patch
+git am 0005-Don-t-fail-AAC-decoding-if-DRC-parameter-isn-t-avail.patch
+git add .
+git am --continue
+cd "$ROMDIR"
+
+# Fix Hotspot in R
+cd "$ROMDIR"/system/netd
+wget https://github.com/phhusson/platform_system_netd/commit/0296b55efeaae8cc835a6e2645531b29e10fb934.patch
+git am 0296b55efeaae8cc835a6e2645531b29e10fb934.patch
+git add .
+git am --continue
+cd "$ROMDIR"
+
+# fix error when building kernel
+cd kernel/xiaomi/mt6765
+wget -c https://github.com/megafon929/kernel_xiaomi_mt6765/commit/1b3856b97250f82c1a1bdb36615c6db71731d3bf.patch
+wget -c https://github.com/megafon929/kernel_xiaomi_mt6765/commit/2773edb8942c068137be609ea517a233af96d99e.patch
+git am 1b3856b97250f82c1a1bdb36615c6db71731d3bf.patch
+git am 2773edb8942c068137be609ea517a233af96d99e.patch
+
+cd "$ROMDIR"
