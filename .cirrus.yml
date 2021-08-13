@@ -6,7 +6,7 @@ task:
     name: potato-certus
     timeout_in: 120m
     container:
-      image:  ubuntu:rolling
+      image:  ubuntu:latest
       cpu: 8
       memory: 32G
     system_update_script:
